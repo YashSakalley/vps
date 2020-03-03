@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>SHO</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/style.css" type="text/css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+
+        }
+        .card {
+            margin: 57px;
+            box-shadow: 2px 5px 4px 3px grey;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">STATION HOUSE OFFICER</a>
+    </nav>
+    <div>
+        <div class="row">
+            <% data.forEach(function(fir){ %>
+
+            <div class="card col-md-6 col-lg-4 col-sm-6 col-xs-6" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title"><%= fir.name %></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><%= fir.document %></h6>
+                    <p class="card-text"></p>
+                    <% if(fir.status == "pending") {%>
+                        <button class="btn btn-warning" style="float: right;" disabled>Pending</button>
+                    <% } %>
+                    <% if(fir.status == "approved") {%>
+                        <button class="btn btn-success" style="float: right;" disabled>Approved</button>
+                    <% } %>
+                    <% if(fir.status == "rejected") {%>
+                        <button class="btn btn-danger" style="float: right;" disabled>Rejected</button>
+                    <% } %>
+                    <a href="/sho/<%= fir._id %>" class="btn btn-info">DETAILS</a>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    </div>
+</body>
+
+</html>

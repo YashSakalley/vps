@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>FIR</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="stylesheets/style.css" type="text/css">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <style type="text/css">
+    body {
+      margin: 0px;
+      padding: 0px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      background-color: white;
+    }
+
+    .p-5 {
+      padding: 1rem !important;
+    }
+
+    .card {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    textarea.form-control {
+      height: 500px;
+      font-size: 20px;
+    }
+
+    textarea {
+      width: 300px;
+    }
+
+    .bottom-chat-page {
+      background: url("/images/unnamed.jpg");
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">VIRTUAL POLICE STATION</a>
+    <a href="/logout" class="btn btn-outline-success my-2 my-sm-0">LOGOUT</a>
+  </nav>
+  <header class="header">
+    <strong>Name: </strong><%= data.name %><br>
+    <strong> Aadhaar Number: </strong><%= data.aadhaar_number %><br>
+    <strong><br>Current Date: </strong><%= date %><br><br>
+    <button class="btn btn-dark" data-toggle="modal" data-target=".location-target">LOCATION</button>
+  </header>
+  <div class="modal fade location-target" id="locationModal" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <section class="block main-wrapper">
+          <div class="container">
+            <div class="row">
+              <div class="col s8 offset-s2 m8 offset-m2 l6 xl6   offset-l3 offset-xl3">
+                <label for="">Address</label>
+                <div class="input-field">
+                  <textarea id="address" rows="3" class="materialize-textarea"></textarea>
+                </div>
+              </div>
+              <div class="col xl12">
+                <div class="map-container block" id='map'>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <h1 class="header_fir">FIRST INFORMATION REPORT (F.I.R)<br>
+    <a href="/userTracking/<%= data.aadhaar_number %>" class="btn btn-primary btn-lg">FIR STATUS</a>
+    <a href="#chat" class="btn btn-primary btn-lg">REGISTER NEW FIR</a>
+    <hr>
+  </h1>
+  <div class="jumbotron">
+    <main class="main_content container">
+      A Virtual Police Station is an Impervious place where you can be rest assured about your data's security. You can
+      report any misconduct happened with you over here. Your data
+      stated here will not be leaked or altered. A first information report (F.I.R.) is a document prepared by police
+      organizations,
+      when they receive information about the commission of a cognizable offence
+
+      <br><br>
+      <br><br>
+      It is only after the F.I.R. is registered in the police station that the police take up investigation of most
+      types of cases.
+      So make sure that all details mentioned here are genuine and correct. As it is an obligatory part of investigation
+      Click below <br>
+      <div class="btn-scroll">
+        <a href="#chat">&or;</a>
+      </div>
+    </main>
+  </div>
+
+  <div class="d-md-flex h-md-100 bottom-chat-page">
+    <a name="chat"></a>
+    <div class="col-md-6 p-0 bg-indigo h-md-100" style="height: 699px;">
+      <img src="images/policeman.png" height="100%">
+    </div>
+    <div class="col-md-6 p-0 bg-transparent h-md-100 loginarea">
+      <div class="d-md-flex  h-md-100 p-5">
+        <form class="card" style="padding: 2rem;" method="POST">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <input class="form-control input-lg" id="finalName" type="text" value="<%= data.name %>" readonly>
+            </div>
+            <div class="form-group col-md-4">
+              <input class="form-control" type="text" id="finalAadhaarNumber" value="<%= data.aadhaar_number %>"
+                readonly>
+            </div>
+            <div class="form-group col-md-4">
+              <input class="form-control" type="text" value="<%= date %>" readonly>
+            </div>
+          </div>
+
+          <div class="md-form">
+            <div class="chat-window" id="chat_window">
+              <div class="chat_messages" id="chat_messages">
+                <div class="chat_message" id="chat_message">
+                  <span class="chat-question btn btn-info"> What is your name? </span><br>
+                </div>
+              </div>
+
+              <div class="chat_controls">
+                <input type="text" name="chat_text" placeholder="Enter your message" id="chat_text" autocomplete="off"
+                  onkeydown="if (event.keyCode == 13){
+                    event.preventDefault();
+                    document.getElementById('enterMsg').click();
+                    }">
+                <input id="enterMsg" type="button" value="Enter" onclick="sendMsg()">
+              </div>
+            </div>
+          </div>
+          <div>
+
+            <br>
+            <br>
+            Upload your signature <br>
+            <input type="file" class="user_signature" name="signature">
+            <div class="submit-buttons" style="margin-top: 10px; float: right;">
+
+              <!-- Preview modal -->
+              <button type="button" class="btn btn-outline-primary btn-lg" data-toggle="modal"
+                data-target=".preview-target">
+                Preview
+              </button>
+
+              <form action="/submitFir" method="POST">
+                <input name="answers" type="text" id="hidden_input" style="display: none;">
+                <input type="submit" class="btn btn-primary btn-lg" value="Submit">
+              </form>
+
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Preview Modal -->
+      <div class="modal fade preview-target" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Your F.I.R.</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div>
+                <table class="preview_fir">
+                  <tr>
+                    <th>Name</th>
+                    <th>Value</th>
+                  </tr>
+
+                  <tr>
+                    <td>Name of Informant</td>
+                    <td><%= data.name %></td>
+                  </tr>
+
+                  <tr>
+                    <td>Father's/Husband's Name</td>
+                    <td><%= data.father_name %></td>
+                  </tr>
+
+                  <tr>
+                    <td>Address of Informant</td>
+                    <td><%= data.address %></td>
+                  </tr>
+
+                  <tr>
+                    <td>Phone Number</td>
+                    <td><%= data.phone %></td>
+                  </tr>
+
+                  <tr>
+                    <td>Place of occurence</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Date and Hour of Occurence</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Nature of the offence</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Particulars of the property</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Number of persons involved in the offence</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Weapons used(if any)</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Description of the accused</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Details of the witnesses</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Complaint</td>
+                    <td></td>
+                  </tr>
+
+                </table>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCm_GrSti6BA79AerJkEcrmCusdDhDCsko">
+      </script>
+      <script src="javascripts/scripts.js"></script>
+
+      <script>$('locationModal').on('shown.bs.modal', function () {
+          $('#myInput').trigger('focus')
+        })</script>
+
+</body>
+
+</html>
