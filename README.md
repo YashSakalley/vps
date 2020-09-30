@@ -1,4 +1,4 @@
-# vps
+# VPS
 Virtual Police Station
 
 Add your config.js file <br>
